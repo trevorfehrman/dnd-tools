@@ -1,11 +1,10 @@
 import React from 'react';
-import { Example } from './Item';
-import './styles.css';
+import { Initiative } from './Initiative';
 
 function App() {
   return (
     <div>
-      <Example />
+      <Initiative />
     </div>
   );
 }
