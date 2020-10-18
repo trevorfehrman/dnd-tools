@@ -1,8 +1,17 @@
+export enum ParticipantCategory {
+  Enemy = 'ENEMY',
+  Ally = 'ALLY',
+  Neutral = 'NEUTRAL',
+  New = 'NEW'
+}
+
 export interface IParticipant {
   id: string;
   name?: string;
-  backgroundColor: string;
-  enemy?: boolean;
-  hitPoints?: number;
-  initiative?: number;
+  category: ParticipantCategory,
+  armorClass?: string;
+  passivePerception?: string;
+  currentHP: number;
+  maxHP: number;
+  initiative: number;
 }

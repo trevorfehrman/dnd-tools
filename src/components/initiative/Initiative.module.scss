@@ -1,0 +1,21 @@
+.initiativeList {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+
+  li {
+    position: relative;
+    padding: 2rem;
+  }
+}
+
+.buttonBar {
+  button {
+    width: 33%;
+  }
+}
+
+.closeButton {
+  top: 1rem;
+  right: 1rem;
+}
