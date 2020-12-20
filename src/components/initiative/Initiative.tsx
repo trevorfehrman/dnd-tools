@@ -35,7 +35,7 @@ export const Initiative: FC = () => {
   React.useEffect(() => {
     const parsedParticipants = JSON.parse(
       localStorage.getItem('participants') as string,
-    ).map((parsedParticipant: IParticipant) => ({
+    )?.map((parsedParticipant: IParticipant) => ({
       ...parsedParticipant,
       id: nextId(),
     }));
