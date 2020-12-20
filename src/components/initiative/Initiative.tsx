@@ -32,6 +32,18 @@ const spring = {
 export const Initiative: FC = () => {
   const [participants, setParticipants] = useState<IParticipant[]>([]);
 
+  React.useEffect(() => {
+    const parsedParticipants = JSON.parse(
+      localStorage.getItem('participants') as string,
+    ).map((parsedParticipant: IParticipant) => ({
+      ...parsedParticipant,
+      id: nextId(),
+    }));
+    if (parsedParticipants) {
+      setParticipants(parsedParticipants);
+    }
+  }, []);
+
   function advanceInitiative(): void {
     setParticipants(move(participants, 0, -1));
   }
@@ -46,12 +58,14 @@ export const Initiative: FC = () => {
   function addParticipant(): void {
     const newParticipants = [...participants];
 
+    // This odd-looking decision is related to framer-motion.
+    // When a participant is added i want them to appear at the top of the page.
     newParticipants.unshift({
       id: nextId(),
       category: ParticipantCategory.New,
-      currentHP: 0,
-      maxHP: 0,
       initiative: 0,
+      units: [{ currentHP: 0, maxHP: 0, unitId: nextId() }],
+      persisted: false,
     });
 
     setParticipants(newParticipants);

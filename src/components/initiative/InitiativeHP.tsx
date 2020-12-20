@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 
 import {
+  CloseButton,
   Editable,
   EditableInput,
   EditablePreview,
@@ -10,51 +11,47 @@ import {
   NumberInputStepper,
   NumberIncrementStepper,
   NumberDecrementStepper,
+  Progress,
   Text,
 } from '@chakra-ui/core';
 
 import styles from './InitiativeHP.module.scss';
 
-import { IParticipant } from '../../interfaces/initiative-interfaces';
+import { IUnit } from '../../interfaces/initiative-interfaces';
 
 interface InitiativeHPProps {
-  participant: IParticipant;
-  editParticipant: (id: string, values: Partial<IParticipant>) => void;
+  unit: IUnit;
+  editUnit: (unitId: string, key: string, value: number) => void;
+  deleteUnit: (unitId: string) => void;
 }
 
 export const InitiativeHP: FC<InitiativeHPProps> = ({
-  participant,
-  editParticipant,
+  unit,
+  editUnit,
+  deleteUnit,
 }) => {
-  function submitHandler(key: string, value: number) {
-    editParticipant(participant.id, { [key]: value });
+  function handleChange(key: string, value: number) {
+    editUnit(unit.unitId, key, value);
   }
 
   return (
-    <div>
-      <Text fontSize="lg">Initiative</Text>
-      <NumberInput
-        className={styles.perception}
-        onChange={(value) => submitHandler('initiative', Number(value))}
-      >
-        <NumberInputField />
-        <NumberInputStepper>
-          <NumberIncrementStepper />
-          <NumberDecrementStepper />
-        </NumberInputStepper>
-      </NumberInput>
-      <Text fontSize="lg">HP</Text>
+    <div style={{ marginTop: '.5rem' }}>
+      <Text fontSize="xl">Hit Points</Text>
       <Flex alignItems="center">
+        <CloseButton
+          marginRight="1rem"
+          onClick={() => deleteUnit(unit.unitId)}
+        />
         <NumberInput
           className={styles.hitPoints}
           fontSize="2xl"
           min={0}
-          max={participant.maxHP}
+          max={unit.maxHP}
           keepWithinRange={false}
           clampValueOnBlur={false}
-          value={participant.currentHP}
+          value={unit.currentHP}
           onChange={
-            (currentHP) => submitHandler('currentHP', Number(currentHP))
+            (currentHP) => handleChange('currentHP', Number(currentHP))
             // eslint-disable-next-line react/jsx-curly-newline
           }
         >
@@ -70,15 +67,19 @@ export const InitiativeHP: FC<InitiativeHPProps> = ({
         <Editable
           fontSize="3xl"
           defaultValue="00"
-          value={String(participant.maxHP)}
+          value={String(unit.maxHP)}
           onChange={(maxHP) => {
-            submitHandler('maxHP', Number(maxHP));
+            handleChange('maxHP', Number(maxHP));
           }}
         >
           <EditablePreview />
           <EditableInput style={{ maxWidth: '53px' }} />
         </Editable>
       </Flex>
+      <Progress
+        className={styles.progress}
+        value={(unit.currentHP / unit.maxHP) * 100}
+      />
     </div>
   );
 };

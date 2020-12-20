@@ -52,12 +52,13 @@ export const InitiativeParticipantData: FC<InitiativeParticipantDataProps> = ({
       </Heading>
       <RadioGroup
         className={styles.radioGroup}
+        // We need to generate unqiue names or all participants share the same radio button state
+        name={`category-${participant.id}`}
         onChange={
           (e) => submitHandler(e.target.name.split('-')[0], e.target.value)
           // eslint-disable-next-line react/jsx-curly-newline
         }
         isInline
-        name={`category-${participant.id}`}
       >
         <Radio value={ParticipantCategory.Ally}>Ally</Radio>
         <Radio value={ParticipantCategory.Enemy}>Enemy</Radio>
@@ -90,6 +91,19 @@ export const InitiativeParticipantData: FC<InitiativeParticipantDataProps> = ({
               (perception) => submitHandler('passivePerception', perception)
               // eslint-disable-next-line react/jsx-curly-newline
             }
+          >
+            <EditablePreview />
+            <EditableInput style={{ maxWidth: '53px' }} />
+          </Editable>
+          <Text className={styles.label} fontSize="lg">
+            Spell Save:{' '}
+          </Text>
+          <Editable
+            className={styles.value}
+            fontSize="3xl"
+            defaultValue="00"
+            value={participant.spellSave}
+            onSubmit={(ss) => submitHandler('spellSave', ss)}
           >
             <EditablePreview />
             <EditableInput style={{ maxWidth: '53px' }} />

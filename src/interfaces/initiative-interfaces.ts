@@ -2,16 +2,23 @@ export enum ParticipantCategory {
   Enemy = 'ENEMY',
   Ally = 'ALLY',
   Neutral = 'NEUTRAL',
-  New = 'NEW'
+  New = 'NEW',
+}
+
+export interface IUnit {
+  currentHP: number;
+  maxHP: number;
+  unitId: string;
 }
 
 export interface IParticipant {
   id: string;
   name?: string;
-  category: ParticipantCategory,
+  category: ParticipantCategory;
   armorClass?: string;
   passivePerception?: string;
-  currentHP: number;
-  maxHP: number;
+  spellSave?: string;
+  units: IUnit[];
   initiative: number;
+  persisted: boolean;
 }
